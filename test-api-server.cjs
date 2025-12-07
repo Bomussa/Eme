@@ -414,6 +414,112 @@ app.get('/api/v1/admin/status', (req, res) => {
   });
 });
 
+// Route Get
+app.get('/api/v1/route/get', (req, res) => {
+  const { patientId } = req.query;
+  
+  if (!patientId) {
+    return res.status(400).json({ success: false, error: 'Missing patientId' });
+  }
+  
+  const patient = db.patients[patientId];
+  
+  if (!patient) {
+    return res.status(404).json({ success: false, error: 'Patient not found' });
+  }
+  
+  res.json({
+    success: true,
+    route: patient.route,
+    current_clinic: patient.current_clinic,
+    current_index: patient.current_index,
+    patientId
+  });
+});
+
+// Route Create
+app.post('/api/v1/route/create', (req, res) => {
+  const { patientId, examType } = req.body;
+  
+  if (!patientId) {
+    return res.status(400).json({ success: false, error: 'Missing patientId' });
+  }
+  
+  const patient = db.patients[patientId];
+  
+  if (!patient) {
+    return res.status(404).json({ success: false, error: 'Patient not found' });
+  }
+  
+  res.json({
+    success: true,
+    route: patient.route,
+    first_clinic: patient.route[0],
+    current_clinic: patient.current_clinic
+  });
+});
+
+// Path Choose
+app.post('/api/v1/path/choose', (req, res) => {
+  const { patientId, examType, clinics } = req.body;
+  
+  const examRoutes = {
+    recruitment: CLINICS,
+    cooks: ['vitals', 'lab', 'xray', 'internal'],
+    drivers: ['vitals', 'eyes', 'audio', 'internal', 'psychiatry'],
+    periodic: ['vitals', 'lab', 'xray', 'ecg', 'internal'],
+    specialized: ['vitals', 'lab', 'internal']
+  };
+  
+  const baseRoute = clinics || examRoutes[examType] || examRoutes.recruitment;
+  const weights = baseRoute.map(clinic => ({
+    clinic,
+    waiting: Object.values(db.queue).filter(q => q.clinic === clinic && q.status === 'WAITING').length
+  }));
+  weights.sort((a, b) => a.waiting - b.waiting);
+  const route = weights.map(w => w.clinic);
+  
+  res.json({
+    success: true,
+    route,
+    weights
+  });
+});
+
+// Queue Position
+app.get('/api/v1/queue/position', (req, res) => {
+  const { clinic, user } = req.query;
+  
+  if (!clinic || !user) {
+    return res.status(400).json({ success: false, error: 'Missing parameters' });
+  }
+  
+  const queueKey = `${clinic}-${user}`;
+  const entry = db.queue[queueKey];
+  
+  if (!entry) {
+    return res.status(404).json({ success: false, error: 'Not in queue' });
+  }
+  
+  const clinicQueue = Object.values(db.queue)
+    .filter(q => q.clinic === clinic && q.status === 'WAITING')
+    .sort((a, b) => a.number - b.number);
+  
+  const position = clinicQueue.findIndex(q => q.patient_id === user) + 1;
+  const ahead = Math.max(0, position - 1);
+  
+  res.json({
+    success: true,
+    clinic,
+    user,
+    position,
+    ahead,
+    number: entry.number,
+    status: entry.status,
+    total_waiting: clinicQueue.length
+  });
+});
+
 // SSE Events
 app.get('/api/v1/events/stream', (req, res) => {
   res.setHeader('Content-Type', 'text/event-stream');
