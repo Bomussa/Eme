@@ -212,70 +212,92 @@ function App() {
 
   const handleExamSelection = async (examType) => {
     try {
-      console.log('🔍 handleExamSelection called:', { examType, patientData })
+      console.log('🔵 handleExamSelection START:', { examType, patientData })
       
       if (!patientData || !patientData.id || !patientData.gender) {
+        console.error('❌ Missing patient data:', patientData)
         throw new Error('Patient data is missing')
       }
       
       // Call patient login with exam type to get dynamic route
+      console.log('🔵 Calling API with:', { id: patientData.id, gender: patientData.gender, examType })
       const loginResponse = await api.patientLogin(patientData.id, patientData.gender, examType)
       
-      console.log('✅ Login response FULL:', JSON.stringify(loginResponse, null, 2))
+      console.log('🟢 API Response received:', loginResponse)
       
       if (!loginResponse || !loginResponse.success) {
+        console.error('❌ API failed:', loginResponse)
         throw new Error((loginResponse && loginResponse.error) || 'Failed to create route')
       }
       
-      // Try different paths to find the route
-      let route = loginResponse.route || []
-      let firstClinic = loginResponse.first_clinic
-      let queueNumber = loginResponse.queue_number || 1
+      // Extract route data - response is direct, not nested
+      const route = loginResponse.route || []
+      const firstClinic = loginResponse.first_clinic
+      const queueNumber = loginResponse.queue_number || 1
       
-      // If route is in data object
-      if (loginResponse.data) {
-        route = loginResponse.data.route || route
-        firstClinic = loginResponse.data.first_clinic || firstClinic  
-        queueNumber = loginResponse.data.queue_number || queueNumber
-      }
-      
-      console.log('📍 Route data extracted:', { route, firstClinic, queueNumber, hasRoute: route && route.length > 0 })
+      console.log('📍 Extracted data:', { route, firstClinic, queueNumber, routeLength: route.length })
       
       if (!route || route.length === 0 || !firstClinic) {
-        throw new Error(`No clinics found for this exam type. Response: ${JSON.stringify(responseData)}`)
+        console.error('❌ No route found:', { route, firstClinic })
+        throw new Error('No clinics found for this exam type')
       }
       
       // Create pathway format for PatientPage
+      const clinicNames = {
+        vitals: { ar: 'الفحص الحيوي', en: 'Vitals' },
+        lab: { ar: 'المختبر', en: 'Laboratory' },
+        xray: { ar: 'الأشعة', en: 'X-Ray' },
+        ecg: { ar: 'رسم القلب', en: 'ECG' },
+        audio: { ar: 'السمع', en: 'Audiometry' },
+        eyes: { ar: 'العيون', en: 'Ophthalmology' },
+        internal: { ar: 'الباطنية', en: 'Internal Medicine' },
+        ent: { ar: 'الأنف والأذن', en: 'ENT' },
+        surgery: { ar: 'الجراحة', en: 'Surgery' },
+        dental: { ar: 'الأسنان', en: 'Dental' },
+        psychiatry: { ar: 'النفسية', en: 'Psychiatry' },
+        derma: { ar: 'الجلدية', en: 'Dermatology' },
+        bones: { ar: 'العظام', en: 'Orthopedics' }
+      }
+      
       const pathway = route.map(clinicId => ({
         id: clinicId,
-        nameAr: clinicId, // Will be translated in PatientPage
-        nameEn: clinicId
+        nameAr: clinicNames[clinicId]?.ar || clinicId,
+        nameEn: clinicNames[clinicId]?.en || clinicId
       }))
       
-      // Update patient data with route and queue information
-      setPatientData({
-        ...patientData,
+      console.log('📋 Pathway created:', pathway)
+      
+      // Update patient data with complete information
+      const newPatientData = {
         id: patientData.id,
         gender: patientData.gender,
         queueType: examType,
+        examType: examType,
         currentClinic: firstClinic,
         queueNumber: queueNumber,
         ahead: Math.max(0, queueNumber - 1),
         pathway: pathway,
         route: route,
-        examType: examType
-      })
+        totalClinics: route.length
+      }
       
+      console.log('💾 Setting patient data:', newPatientData)
+      setPatientData(newPatientData)
+      
+      console.log('🔄 Switching to patient view')
       setCurrentView('patient')
       
       showNotification(
         language === 'ar' ? `تم التسجيل بنجاح - المسار: ${route.length} عيادة` : `Successfully registered - Route: ${route.length} clinics`,
         'success'
       )
+      
+      console.log('✅ handleExamSelection COMPLETE')
+      
     } catch (error) {
-      console.error('Exam selection failed:', error)
+      console.error('❌ Exam selection failed:', error)
       showNotification(
-        language === 'ar' ? 'فشل التسجيل في المسار الطبي' : 'Failed to register medical route',
+        language === 'ar' ? 'فشل التسجيل في المسار الطبي: ' + error.message : 'Failed to register: ' + error.message,
         'error'
       )
     }
