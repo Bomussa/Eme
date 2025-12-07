@@ -74,6 +74,18 @@ app.get('/api/v1/status', (req, res) => {
   });
 });
 
+// Health/Status combined (compatibility)
+app.get('/api/v1/health/status', (req, res) => {
+  res.json({
+    success: true,
+    status: 'healthy',
+    mode: 'online',
+    backend: 'up',
+    database: 'connected',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Maintenance
 app.get('/api/v1/maintenance', (req, res) => {
   res.json({
