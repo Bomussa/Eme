@@ -214,41 +214,53 @@ function App() {
 
   const handleExamSelection = async (examType) => {
     try {
-      // Get first clinic from medical pathway based on exam type and gender
-      const pathway = medicalPathways[examType]?.[patientData.gender] || []
-      if (pathway.length === 0) {
+      // Call patient login with exam type to get dynamic route
+      const loginResponse = await api.patientLogin(patientData.id, patientData.gender, examType)
+      
+      if (!loginResponse.success) {
+        throw new Error(loginResponse.error || 'Failed to create route')
+      }
+      
+      // Get the dynamic route from response
+      const route = loginResponse.route || []
+      const firstClinic = loginResponse.first_clinic || route[0]
+      const queueNumber = loginResponse.queue_number || 1
+      
+      if (!firstClinic) {
         throw new Error('No clinics found for this exam type')
       }
       
-      const firstClinic = pathway[0].id
+      // Create pathway format for PatientPage
+      const pathway = route.map(clinicId => ({
+        id: clinicId,
+        nameAr: clinicId, // Will be translated in PatientPage
+        nameEn: clinicId
+      }))
       
-      // Enter queue for the first clinic
-      const queueData = await api.enterQueue(firstClinic, patientData.id, false)
-      
-      if (!queueData.success) {
-        throw new Error(queueData.error || 'Failed to enter queue')
-      }
-      
-      // Update patient data with queue information
+      // Update patient data with route and queue information
       setPatientData({
         ...patientData,
+        id: patientData.id,
+        gender: patientData.gender,
         queueType: examType,
         currentClinic: firstClinic,
-        queueNumber: queueData.display_number || queueData.number,
-        ahead: queueData.ahead || 0,
-        pathway: pathway
+        queueNumber: queueNumber,
+        ahead: Math.max(0, queueNumber - 1),
+        pathway: pathway,
+        route: route,
+        examType: examType
       })
       
       setCurrentView('patient')
       
       showNotification(
-        language === 'ar' ? 'تم التسجيل بنجاح في قائمة الانتظار' : 'Successfully registered in queue',
+        language === 'ar' ? `تم التسجيل بنجاح - المسار: ${route.length} عيادة` : `Successfully registered - Route: ${route.length} clinics`,
         'success'
       )
     } catch (error) {
-      // console.error('Exam selection failed:', error)
+      console.error('Exam selection failed:', error)
       showNotification(
-        language === 'ar' ? 'فشل التسجيل في قائمة الانتظار' : 'Failed to register in queue',
+        language === 'ar' ? 'فشل التسجيل في المسار الطبي' : 'Failed to register medical route',
         'error'
       )
     }
