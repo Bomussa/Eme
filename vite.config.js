@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import path from 'path'
 
-const backend = (process.env.VITE_API_BASE || 'http://localhost:3000').replace(/\/$/, '')
+const backend = (process.env.VITE_API_BASE || 'http://localhost:3001').replace(/\/$/, '')
 
 export default defineConfig({
   server: {
