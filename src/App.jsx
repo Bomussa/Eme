@@ -227,13 +227,16 @@ function App() {
         throw new Error(loginResponse.error || 'Failed to create route')
       }
       
-      // Get the dynamic route from response
-      const route = loginResponse.route || []
-      const firstClinic = loginResponse.first_clinic || route[0]
-      const queueNumber = loginResponse.queue_number || 1
+      // Get the dynamic route from response data
+      const responseData = loginResponse.data || loginResponse
+      const route = responseData.route || []
+      const firstClinic = responseData.first_clinic || route[0]
+      const queueNumber = responseData.queue_number || 1
       
-      if (!firstClinic) {
-        throw new Error('No clinics found for this exam type')
+      console.log('📍 Route data:', { route, firstClinic, queueNumber })
+      
+      if (!route || route.length === 0 || !firstClinic) {
+        throw new Error(`No clinics found for this exam type. Response: ${JSON.stringify(responseData)}`)
       }
       
       // Create pathway format for PatientPage
