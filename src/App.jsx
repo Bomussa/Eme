@@ -191,20 +191,18 @@ function App() {
 
   const handleLogin = async ({ patientId, gender }) => {
     try {
-      // First login the patient
-      const loginResponse = await api.patientLogin(patientId, gender)
-      if (loginResponse.success) {
-        setPatientData(loginResponse.data)
-        setCurrentView("examSelection")
-        showNotification(
-          language === 'ar' ? 'تم تسجيل الدخول بنجاح' : 'Login successful',
-          'success'
-        )
-      } else {
-        throw new Error(loginResponse.error || 'Login failed')
-      }
+      // Save basic patient info for exam selection
+      setPatientData({
+        id: patientId,
+        gender: gender
+      })
+      setCurrentView("examSelection")
+      showNotification(
+        language === 'ar' ? 'تم تسجيل الدخول بنجاح' : 'Login successful',
+        'success'
+      )
     } catch (error) {
-      // Login failed - show notification
+      console.error('Login failed:', error)
       showNotification(
         language === 'ar' ? 'فشل تسجيل الدخول' : 'Login failed',
         'error'
