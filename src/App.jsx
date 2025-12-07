@@ -212,8 +212,16 @@ function App() {
 
   const handleExamSelection = async (examType) => {
     try {
+      console.log('🔍 handleExamSelection called:', { examType, patientData })
+      
+      if (!patientData || !patientData.id || !patientData.gender) {
+        throw new Error('Patient data is missing')
+      }
+      
       // Call patient login with exam type to get dynamic route
       const loginResponse = await api.patientLogin(patientData.id, patientData.gender, examType)
+      
+      console.log('✅ Login response:', loginResponse)
       
       if (!loginResponse.success) {
         throw new Error(loginResponse.error || 'Failed to create route')
