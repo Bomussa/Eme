@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
- * Local API Test Server
+ * Local API Test Server  
  * Simulates all API endpoints for complete testing
  */
 
-import express from 'express';
-import cors from 'cors';
+const express = require('express');
+const cors = require('cors');
 
 const app = express();
 app.use(cors());
@@ -205,7 +205,7 @@ app.post('/api/v1/patient/login', (req, res) => {
     entered_at: new Date().toISOString()
   };
   
-  console.log(`✅ Patient ${patientId} registered with route:`, route.join(' → '));
+  console.log(`✅ Patient ${patientId} registered - Route: ${route.slice(0, 5).join(' → ')}...`);
   
   res.json({
     success: true,
@@ -244,7 +244,7 @@ app.post('/api/v1/queue/enter', (req, res) => {
       user,
       number: existing.number,
       status: 'ALREADY_IN_QUEUE',
-      ahead: position - 1,
+      ahead: Math.max(0, position - 1),
       display_number: position,
       position,
       message: 'Already in queue'
@@ -265,7 +265,7 @@ app.post('/api/v1/queue/enter', (req, res) => {
   
   const waiting = Object.values(db.queue).filter(q => q.clinic === clinic && q.status === 'WAITING').length;
   
-  console.log(`✅ Patient ${user} entered ${clinic} queue - Number: ${nextNumber}`);
+  console.log(`✅ Patient ${user} entered ${clinic} - Queue #${nextNumber}`);
   
   res.json({
     success: true,
@@ -273,7 +273,7 @@ app.post('/api/v1/queue/enter', (req, res) => {
     user,
     number: nextNumber,
     status: 'WAITING',
-    ahead: waiting - 1,
+    ahead: Math.max(0, waiting - 1),
     display_number: waiting,
     position: waiting
   });
@@ -301,8 +301,7 @@ app.post('/api/v1/patient/verify-pin', (req, res) => {
   if (!db.queue[queueKey]) {
     return res.status(400).json({
       success: false,
-      error: 'Patient not in queue',
-      message: 'لم يتم العثور على المريض في الطابور'
+      error: 'Patient not in queue'
     });
   }
   
@@ -313,10 +312,7 @@ app.post('/api/v1/patient/verify-pin', (req, res) => {
   // Get patient
   const patient = db.patients[patientId];
   if (!patient) {
-    return res.status(400).json({
-      success: false,
-      error: 'Patient not found'
-    });
+    return res.status(400).json({ success: false, error: 'Patient not found' });
   }
   
   // Move to next clinic
@@ -327,7 +323,7 @@ app.post('/api/v1/patient/verify-pin', (req, res) => {
     // Completed all clinics
     patient.status = 'COMPLETED';
     
-    console.log(`🎉 Patient ${patientId} completed all clinics!`);
+    console.log(`🎉 Patient ${patientId} COMPLETED ALL CLINICS!`);
     
     return res.json({
       success: true,
@@ -342,13 +338,28 @@ app.post('/api/v1/patient/verify-pin', (req, res) => {
   patient.current_clinic = nextClinic;
   patient.current_index = nextIndex;
   
-  console.log(`✅ Patient ${patientId} completed ${clinic}, moving to ${nextClinic}`);
+  // Auto-enter next clinic
+  const clinicQueue = Object.values(db.queue).filter(q => q.clinic === nextClinic);
+  const nextNumber = clinicQueue.length + 1;
+  const nextQueueKey = `${nextClinic}-${patientId}`;
+  
+  db.queue[nextQueueKey] = {
+    clinic: nextClinic,
+    patient_id: patientId,
+    number: nextNumber,
+    status: 'WAITING',
+    entered_at: new Date().toISOString()
+  };
+  
+  console.log(`✅ Patient ${patientId}: ${clinic} ✓ → ${nextClinic} (${nextIndex + 1}/${patient.route.length})`);
   
   res.json({
     success: true,
     completed: false,
     next_clinic: nextClinic,
+    queue_number: nextNumber,
     remaining: patient.route.length - nextIndex,
+    progress: `${nextIndex + 1}/${patient.route.length}`,
     message: `تم! انتقل إلى ${nextClinic}`
   });
 });
@@ -415,20 +426,10 @@ app.listen(PORT, () => {
   console.log('═══════════════════════════════════════════');
   console.log('🚀 Test API Server Started');
   console.log('═══════════════════════════════════════════');
-  console.log(`📍 Server: http://localhost:${PORT}`);
-  console.log(`📊 Endpoints: ${PORT}/api/v1/*`);
+  console.log(`📍 Local: http://localhost:${PORT}`);
+  console.log(`📊 API: http://localhost:${PORT}/api/v1/*`);
   console.log('');
-  console.log('Available Endpoints:');
-  console.log('  GET  /api/v1/health');
-  console.log('  GET  /api/v1/status');
-  console.log('  GET  /api/v1/maintenance');
-  console.log('  GET  /api/v1/pin/status');
-  console.log('  GET  /api/v1/queue/status?clinic=lab');
-  console.log('  POST /api/v1/patient/login');
-  console.log('  POST /api/v1/queue/enter');
-  console.log('  POST /api/v1/patient/verify-pin');
-  console.log('  GET  /api/v1/admin/status');
-  console.log('  GET  /api/v1/events/stream');
+  console.log('✅ All 10 endpoints ready for testing');
   console.log('═══════════════════════════════════════════');
   console.log('');
 });
