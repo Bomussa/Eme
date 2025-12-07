@@ -65,16 +65,17 @@ export const examTypes = [
 ]
 
 // Medical pathways based on exam type and gender
+// UPDATED: Using consistent IDs matching App.jsx and Database (eyes, bones, psychiatry)
 export const medicalPathways = {
   // فحص الدورات الداخلية والخارجية
   courses: {
     male: [
       { id: 'lab', name: 'Laboratory', nameAr: 'المختبر', floor: 'الميزانين', floorCode: 'M' },
       { id: 'vitals', name: 'Vital Signs', nameAr: 'القياسات الحيوية', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'ophthalmology', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'eyes', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'internal', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'surgery', name: 'General Surgery', nameAr: 'عيادة الجراحة العامة', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'orthopedics', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'bones', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'ent', name: 'ENT', nameAr: 'عيادة أنف وأذن وحنجرة', floor: 'الطابق الثاني', floorCode: '2' }
     ],
     female: [
@@ -82,12 +83,12 @@ export const medicalPathways = {
       { id: 'vitals', name: 'Vital Signs', nameAr: 'القياسات الحيوية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'ent', name: 'ENT', nameAr: 'عيادة أنف وأذن وحنجرة', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'surgery', name: 'General Surgery', nameAr: 'عيادة الجراحة العامة', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'orthopedics', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'psychology', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'bones', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'psychiatry', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'dental', name: 'Dental', nameAr: 'عيادة الأسنان', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'internal_f', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
-      { id: 'ophthalmology_f', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
-      { id: 'dermatology', name: 'Dermatology', nameAr: 'عيادة الجلدية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' }
+      { id: 'internal', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
+      { id: 'eyes', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
+      { id: 'derma', name: 'Dermatology', nameAr: 'عيادة الجلدية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' }
     ]
   },
   
@@ -96,12 +97,12 @@ export const medicalPathways = {
     male: [
       { id: 'lab', name: 'Laboratory & Radiology', nameAr: 'المختبر والأشعة', floor: 'الميزانين', floorCode: 'M' },
       { id: 'vitals', name: 'Vital Signs', nameAr: 'القياسات الحيوية', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'ophthalmology', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'eyes', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'internal', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'surgery', name: 'General Surgery', nameAr: 'عيادة الجراحة العامة', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'orthopedics', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'bones', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'ent', name: 'ENT', nameAr: 'عيادة أنف وأذن وحنجرة', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'psychology', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'psychiatry', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'dental', name: 'Dental', nameAr: 'عيادة الأسنان', floor: 'الطابق الثاني', floorCode: '2' }
     ],
     female: [
@@ -109,12 +110,12 @@ export const medicalPathways = {
       { id: 'vitals', name: 'Vital Signs', nameAr: 'القياسات الحيوية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'ent', name: 'ENT', nameAr: 'عيادة أنف وأذن وحنجرة', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'surgery', name: 'General Surgery', nameAr: 'عيادة الجراحة العامة', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'orthopedics', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'psychology', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'bones', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'psychiatry', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'dental', name: 'Dental', nameAr: 'عيادة الأسنان', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'internal_f', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
-      { id: 'ophthalmology_f', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
-      { id: 'dermatology', name: 'Dermatology', nameAr: 'عيادة الجلدية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' }
+      { id: 'internal', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
+      { id: 'eyes', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
+      { id: 'derma', name: 'Dermatology', nameAr: 'عيادة الجلدية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' }
     ]
   },
   
@@ -123,12 +124,12 @@ export const medicalPathways = {
     male: [
       { id: 'lab', name: 'Laboratory & Radiology', nameAr: 'المختبر والأشعة', floor: 'الميزانين', floorCode: 'M' },
       { id: 'vitals', name: 'Vital Signs', nameAr: 'القياسات الحيوية', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'ophthalmology', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'eyes', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'internal', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'surgery', name: 'General Surgery', nameAr: 'عيادة الجراحة العامة', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'orthopedics', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'bones', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'ent', name: 'ENT', nameAr: 'عيادة أنف وأذن وحنجرة', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'psychology', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'psychiatry', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'dental', name: 'Dental', nameAr: 'عيادة الأسنان', floor: 'الطابق الثاني', floorCode: '2' }
     ],
     female: [
@@ -136,12 +137,12 @@ export const medicalPathways = {
       { id: 'vitals', name: 'Vital Signs', nameAr: 'القياسات الحيوية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'ent', name: 'ENT', nameAr: 'عيادة أنف وأذن وحنجرة', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'surgery', name: 'General Surgery', nameAr: 'عيادة الجراحة العامة', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'orthopedics', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'psychology', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'bones', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'psychiatry', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'dental', name: 'Dental', nameAr: 'عيادة الأسنان', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'internal_f', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
-      { id: 'ophthalmology_f', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
-      { id: 'dermatology', name: 'Dermatology', nameAr: 'عيادة الجلدية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' }
+      { id: 'internal', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
+      { id: 'eyes', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
+      { id: 'derma', name: 'Dermatology', nameAr: 'عيادة الجلدية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' }
     ]
   },
   
@@ -149,12 +150,12 @@ export const medicalPathways = {
     male: [
       { id: 'lab', name: 'Laboratory & Radiology', nameAr: 'المختبر والأشعة', floor: 'الميزانين', floorCode: 'M' },
       { id: 'vitals', name: 'Vital Signs', nameAr: 'القياسات الحيوية', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'ophthalmology', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'eyes', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'internal', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'surgery', name: 'General Surgery', nameAr: 'عيادة الجراحة العامة', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'orthopedics', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'bones', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'ent', name: 'ENT', nameAr: 'عيادة أنف وأذن وحنجرة', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'psychology', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'psychiatry', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'dental', name: 'Dental', nameAr: 'عيادة الأسنان', floor: 'الطابق الثاني', floorCode: '2' }
     ],
     female: [
@@ -162,12 +163,12 @@ export const medicalPathways = {
       { id: 'vitals', name: 'Vital Signs', nameAr: 'القياسات الحيوية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'ent', name: 'ENT', nameAr: 'عيادة أنف وأذن وحنجرة', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'surgery', name: 'General Surgery', nameAr: 'عيادة الجراحة العامة', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'orthopedics', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'psychology', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'bones', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'psychiatry', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'dental', name: 'Dental', nameAr: 'عيادة الأسنان', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'internal_f', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
-      { id: 'ophthalmology_f', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
-      { id: 'dermatology', name: 'Dermatology', nameAr: 'عيادة الجلدية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' }
+      { id: 'internal', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
+      { id: 'eyes', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
+      { id: 'derma', name: 'Dermatology', nameAr: 'عيادة الجلدية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' }
     ]
   },
   
@@ -175,12 +176,12 @@ export const medicalPathways = {
     male: [
       { id: 'lab', name: 'Laboratory & Radiology', nameAr: 'المختبر والأشعة', floor: 'الميزانين', floorCode: 'M' },
       { id: 'vitals', name: 'Vital Signs', nameAr: 'القياسات الحيوية', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'ophthalmology', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'eyes', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'internal', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'surgery', name: 'General Surgery', nameAr: 'عيادة الجراحة العامة', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'orthopedics', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'bones', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'ent', name: 'ENT', nameAr: 'عيادة أنف وأذن وحنجرة', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'psychology', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'psychiatry', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'dental', name: 'Dental', nameAr: 'عيادة الأسنان', floor: 'الطابق الثاني', floorCode: '2' }
     ],
     female: [
@@ -188,12 +189,12 @@ export const medicalPathways = {
       { id: 'vitals', name: 'Vital Signs', nameAr: 'القياسات الحيوية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'ent', name: 'ENT', nameAr: 'عيادة أنف وأذن وحنجرة', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'surgery', name: 'General Surgery', nameAr: 'عيادة الجراحة العامة', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'orthopedics', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'psychology', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'bones', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'psychiatry', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'dental', name: 'Dental', nameAr: 'عيادة الأسنان', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'internal_f', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
-      { id: 'ophthalmology_f', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
-      { id: 'dermatology', name: 'Dermatology', nameAr: 'عيادة الجلدية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' }
+      { id: 'internal', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
+      { id: 'eyes', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
+      { id: 'derma', name: 'Dermatology', nameAr: 'عيادة الجلدية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' }
     ]
   },
   
@@ -201,12 +202,12 @@ export const medicalPathways = {
     male: [
       { id: 'lab', name: 'Laboratory & Radiology', nameAr: 'المختبر والأشعة', floor: 'الميزانين', floorCode: 'M' },
       { id: 'vitals', name: 'Vital Signs', nameAr: 'القياسات الحيوية', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'ophthalmology', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'eyes', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'internal', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'surgery', name: 'General Surgery', nameAr: 'عيادة الجراحة العامة', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'orthopedics', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'bones', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'ent', name: 'ENT', nameAr: 'عيادة أنف وأذن وحنجرة', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'psychology', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'psychiatry', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'dental', name: 'Dental', nameAr: 'عيادة الأسنان', floor: 'الطابق الثاني', floorCode: '2' }
     ],
     female: [
@@ -214,12 +215,12 @@ export const medicalPathways = {
       { id: 'vitals', name: 'Vital Signs', nameAr: 'القياسات الحيوية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'ent', name: 'ENT', nameAr: 'عيادة أنف وأذن وحنجرة', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'surgery', name: 'General Surgery', nameAr: 'عيادة الجراحة العامة', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'orthopedics', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'psychology', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'bones', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'psychiatry', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'dental', name: 'Dental', nameAr: 'عيادة الأسنان', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'internal_f', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
-      { id: 'ophthalmology_f', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
-      { id: 'dermatology', name: 'Dermatology', nameAr: 'عيادة الجلدية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' }
+      { id: 'internal', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
+      { id: 'eyes', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
+      { id: 'derma', name: 'Dermatology', nameAr: 'عيادة الجلدية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' }
     ]
   },
   
@@ -227,22 +228,22 @@ export const medicalPathways = {
   aviation: {
     male: [
       { id: 'lab', name: 'Laboratory', nameAr: 'المختبر', floor: 'الميزانين', floorCode: 'M' },
-      { id: 'ophthalmology', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'eyes', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'internal', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'ent', name: 'ENT', nameAr: 'عيادة أنف وأذن وحنجرة', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'ecg', name: 'ECG', nameAr: 'عيادة تخطيط القلب', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'audiology', name: 'Audiology', nameAr: 'عيادة السمع', floor: 'الطابق الثاني', floorCode: '2' }
+      { id: 'audio', name: 'Audiology', nameAr: 'عيادة السمع', floor: 'الطابق الثاني', floorCode: '2' }
     ],
     female: [
       { id: 'lab', name: 'Laboratory', nameAr: 'المختبر', floor: 'الميزانين', floorCode: 'M' },
       { id: 'ent', name: 'ENT', nameAr: 'عيادة أنف وأذن وحنجرة', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'surgery', name: 'General Surgery', nameAr: 'عيادة الجراحة العامة', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'orthopedics', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'psychology', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'bones', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'psychiatry', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'dental', name: 'Dental', nameAr: 'عيادة الأسنان', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'internal_f', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
-      { id: 'ophthalmology_f', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
-      { id: 'dermatology', name: 'Dermatology', nameAr: 'عيادة الجلدية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' }
+      { id: 'internal', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
+      { id: 'eyes', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
+      { id: 'derma', name: 'Dermatology', nameAr: 'عيادة الجلدية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' }
     ]
   },
   
@@ -259,12 +260,12 @@ export const medicalPathways = {
       { id: 'vitals', name: 'Vital Signs', nameAr: 'القياسات الحيوية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'ent', name: 'ENT', nameAr: 'عيادة أنف وأذن وحنجرة', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'surgery', name: 'General Surgery', nameAr: 'عيادة الجراحة العامة', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'orthopedics', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'psychology', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'bones', name: 'Orthopedics', nameAr: 'عيادة العظام والمفاصل', floor: 'الطابق الثاني', floorCode: '2' },
+      { id: 'psychiatry', name: 'Psychology', nameAr: 'عيادة النفسية', floor: 'الطابق الثاني', floorCode: '2' },
       { id: 'dental', name: 'Dental', nameAr: 'عيادة الأسنان', floor: 'الطابق الثاني', floorCode: '2' },
-      { id: 'internal_f', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
-      { id: 'ophthalmology_f', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
-      { id: 'dermatology', name: 'Dermatology', nameAr: 'عيادة الجلدية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' }
+      { id: 'internal', name: 'Internal Medicine', nameAr: 'عيادة الباطنية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
+      { id: 'eyes', name: 'Ophthalmology', nameAr: 'عيادة العيون', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' },
+      { id: 'derma', name: 'Dermatology', nameAr: 'عيادة الجلدية', floor: 'الطابق الثالث', floorCode: '3', note: 'يجب التسجيل من استقبال العطار' }
     ]
   }
 }
