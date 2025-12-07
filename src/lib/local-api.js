@@ -4,6 +4,8 @@
  * Perfect fallback when Cloudflare Functions are not available
  */
 
+import { getMedicalPathway } from './utils';
+
 class LocalApiService {
   constructor() {
     this.storagePrefix = 'mmc_mms_';
@@ -88,7 +90,7 @@ class LocalApiService {
   // Patient APIs
   // ==========================================
 
-  async patientLogin(patientId, gender) {
+  async patientLogin(patientId, gender, examType = 'recruitment') {
     try {
       // Validate
       if (!patientId || !gender) {
@@ -103,12 +105,31 @@ class LocalApiService {
         return { success: false, error: 'Invalid gender' };
       }
 
+      // 1. Get Pathway (Route)
+      const pathwayObjects = getMedicalPathway(examType, gender);
+      if (!pathwayObjects || pathwayObjects.length === 0) {
+          // Fallback if no pathway found
+           return { success: false, error: 'No medical pathway found for this exam type' };
+      }
+      const route = pathwayObjects.map(p => p.id);
+      const firstClinic = route[0];
+
+      // 2. Auto-enter first clinic
+      const enterResult = await this.enterQueue(firstClinic, patientId, true); // Auto entry
+      if (!enterResult.success) {
+           return { success: false, error: 'Failed to enter first clinic queue' };
+      }
+
       // Create session
       const sessionId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
       const patientData = {
         id: sessionId,
         patientId: patientId,
         gender: gender,
+        examType: examType,
+        route: route,
+        first_clinic: firstClinic,
+        queue_number: enterResult.number,
         loginTime: new Date().toISOString(),
         status: 'logged_in',
         currentPath: [],
@@ -120,12 +141,17 @@ class LocalApiService {
       patients[sessionId] = patientData;
       this.setItem('patients', patients);
 
+      // Return structure matching App.jsx expectation
       return {
         success: true,
         data: patientData,
+        route: route,
+        first_clinic: firstClinic,
+        queue_number: enterResult.number,
         message: 'Login successful'
       };
     } catch (error) {
+      console.error('Local Login Error:', error);
       return { success: false, error: error.message };
     }
   }
@@ -144,6 +170,20 @@ class LocalApiService {
           current: null,
           served: []
         };
+      }
+
+      // Check if already in queue
+      const existing = queues[clinic].list.find(e => e.user === user);
+      if (existing) {
+         return {
+            success: true,
+            clinic: clinic,
+            user: user,
+            number: existing.number,
+            status: existing.status,
+            ahead: queues[clinic].list.indexOf(existing),
+            display_number: queues[clinic].list.length
+         };
       }
 
       // Generate unique number
@@ -277,16 +317,9 @@ class LocalApiService {
 
   async choosePath(gender = 'male') {
     try {
-      const clinics = this.getItem('clinics');
-      
-      // Generate path based on gender and load
-      let path = [];
-      
-      if (gender === 'male') {
-        path = ['lab', 'xray', 'vitals', 'ecg', 'audio', 'eyes', 'internal', 'ent', 'surgery', 'dental', 'psychiatry', 'derma', 'bones'];
-      } else {
-        path = ['lab', 'xray', 'vitals', 'ecg', 'audio', 'eyes', 'internal', 'ent', 'dental', 'psychiatry', 'derma'];
-      }
+        // Reuse getMedicalPathway logic for consistency
+        const pathwayObjects = getMedicalPathway('recruitment', gender); // Default to recruitment
+        const path = pathwayObjects.map(p => p.id);
 
       return {
         success: true,
@@ -408,4 +441,3 @@ class LocalApiService {
 const localApi = new LocalApiService();
 export default localApi;
 export { localApi };
-
