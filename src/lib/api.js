@@ -186,10 +186,13 @@ class ApiService {
    * Response: { success, data, route, first_clinic, queue_number }
    */
   async patientLogin(patientId, gender, examType = 'recruitment') {
-    return this.request(`${API_VERSION}/patient/login`, {
+    console.log('🔵 API: Calling patient/login with:', { patientId, gender, examType })
+    const result = await this.request(`${API_VERSION}/patient/login`, {
       method: 'POST',
       body: JSON.stringify({ patientId, gender, examType })
     })
+    console.log('🟢 API: Patient/login response:', result)
+    return result
   }
 
   /**
