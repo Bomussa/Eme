@@ -182,13 +182,13 @@ class ApiService {
   /**
    * تسجيل دخول المريض
    * Backend: POST /api/v1/patient/login
-   * Body: { patientId, gender }
-   * Response: { success, data }
+   * Body: { patientId, gender, examType }
+   * Response: { success, data, route, first_clinic, queue_number }
    */
-  async patientLogin(patientId, gender) {
+  async patientLogin(patientId, gender, examType = 'recruitment') {
     return this.request(`${API_VERSION}/patient/login`, {
       method: 'POST',
-      body: JSON.stringify({ patientId, gender })
+      body: JSON.stringify({ patientId, gender, examType })
     })
   }
 
