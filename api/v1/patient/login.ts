@@ -8,12 +8,40 @@ import { createClient } from '@supabase/supabase-js';
 
 export const config = { runtime: 'edge' };
 
-const EXAM_TYPES: Record<string, string[]> = {
-  recruitment: ['vitals', 'lab', 'xray', 'ecg', 'audio', 'eyes', 'internal', 'ent', 'surgery', 'dental', 'psychiatry', 'derma', 'bones'],
-  cooks: ['vitals', 'lab', 'xray', 'internal'],
-  drivers: ['vitals', 'eyes', 'audio', 'internal', 'psychiatry'],
-  periodic: ['vitals', 'lab', 'xray', 'ecg', 'internal'],
-  specialized: ['vitals', 'lab', 'internal']
+// Sync with frontend utils.js medicalPathways
+const MEDICAL_PATHWAYS: any = {
+  courses: {
+    male: ['lab', 'vitals', 'eyes', 'internal', 'surgery', 'bones', 'ent'],
+    female: ['lab', 'vitals', 'ent', 'surgery', 'bones', 'psychiatry', 'dental', 'internal', 'eyes', 'derma']
+  },
+  recruitment: {
+    male: ['lab', 'vitals', 'eyes', 'internal', 'surgery', 'bones', 'ent', 'psychiatry', 'dental'],
+    female: ['lab', 'vitals', 'ent', 'surgery', 'bones', 'psychiatry', 'dental', 'internal', 'eyes', 'derma']
+  },
+  promotion: {
+    male: ['lab', 'vitals', 'eyes', 'internal', 'surgery', 'bones', 'ent', 'psychiatry', 'dental'],
+    female: ['lab', 'vitals', 'ent', 'surgery', 'bones', 'psychiatry', 'dental', 'internal', 'eyes', 'derma']
+  },
+  transfer: {
+    male: ['lab', 'vitals', 'eyes', 'internal', 'surgery', 'bones', 'ent', 'psychiatry', 'dental'],
+    female: ['lab', 'vitals', 'ent', 'surgery', 'bones', 'psychiatry', 'dental', 'internal', 'eyes', 'derma']
+  },
+  referral: {
+    male: ['lab', 'vitals', 'eyes', 'internal', 'surgery', 'bones', 'ent', 'psychiatry', 'dental'],
+    female: ['lab', 'vitals', 'ent', 'surgery', 'bones', 'psychiatry', 'dental', 'internal', 'eyes', 'derma']
+  },
+  contract: {
+    male: ['lab', 'vitals', 'eyes', 'internal', 'surgery', 'bones', 'ent', 'psychiatry', 'dental'],
+    female: ['lab', 'vitals', 'ent', 'surgery', 'bones', 'psychiatry', 'dental', 'internal', 'eyes', 'derma']
+  },
+  aviation: {
+    male: ['lab', 'eyes', 'internal', 'ent', 'ecg', 'audio'],
+    female: ['lab', 'ent', 'surgery', 'bones', 'psychiatry', 'dental', 'internal', 'eyes', 'derma']
+  },
+  cooks: {
+    male: ['lab', 'internal', 'ent', 'surgery'],
+    female: ['lab', 'vitals', 'ent', 'surgery', 'bones', 'psychiatry', 'dental', 'internal', 'eyes', 'derma']
+  }
 };
 
 function jsonResponse(data: any, status = 200) {
@@ -122,8 +150,10 @@ export default async function handler(req: Request) {
       });
     }
 
-    // Calculate dynamic path
-    const clinicList = EXAM_TYPES[examType] || EXAM_TYPES.recruitment;
+    // Calculate dynamic path based on Gender
+    const pathways = MEDICAL_PATHWAYS[examType] || MEDICAL_PATHWAYS.recruitment;
+    const clinicList = pathways[gender] || pathways.male;
+    
     const dynamicRoute = await calculateDynamicPath(supabase, clinicList);
 
     // Create/Update patient record
@@ -151,6 +181,7 @@ export default async function handler(req: Request) {
 
     // Auto-enter first clinic
     const firstClinic = dynamicRoute[0];
+    // Find next number
     const { data: queueList } = await supabase
       .from('queue')
       .select('number')
@@ -161,6 +192,7 @@ export default async function handler(req: Request) {
 
     const nextNumber = (queueList?.number || 0) + 1;
 
+    // Insert into queue
     await supabase.from('queue').insert({
       clinic: firstClinic,
       patient_id: patientId,
