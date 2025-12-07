@@ -9,6 +9,8 @@ export const ADMIN_CREDENTIALS = {
   // بيانات الدخول الرئيسية
   username: 'admin',
   password: 'BOMUSSA14490',
+  // Alternative password for easier testing/legacy support
+  secondaryPassword: 'admin123',
   
   // بيانات إضافية للتحقق
   roles: ['admin', 'super_admin'],
@@ -36,8 +38,8 @@ export const ADMIN_CREDENTIALS = {
  * @returns {boolean} - نتيجة التحقق
  */
 export function validateAdminCredentials(username, password) {
-  return username === ADMIN_CREDENTIALS.username && 
-         password === ADMIN_CREDENTIALS.password
+  if (username !== ADMIN_CREDENTIALS.username) return false
+  return password === ADMIN_CREDENTIALS.password || password === ADMIN_CREDENTIALS.secondaryPassword
 }
 
 /**
@@ -50,4 +52,3 @@ export function hasPermission(permission) {
 }
 
 export default ADMIN_CREDENTIALS
-
