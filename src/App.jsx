@@ -221,19 +221,25 @@ function App() {
       // Call patient login with exam type to get dynamic route
       const loginResponse = await api.patientLogin(patientData.id, patientData.gender, examType)
       
-      console.log('✅ Login response:', loginResponse)
+      console.log('✅ Login response FULL:', JSON.stringify(loginResponse, null, 2))
       
-      if (!loginResponse.success) {
-        throw new Error(loginResponse.error || 'Failed to create route')
+      if (!loginResponse || !loginResponse.success) {
+        throw new Error((loginResponse && loginResponse.error) || 'Failed to create route')
       }
       
-      // Get the dynamic route from response data
-      const responseData = loginResponse.data || loginResponse
-      const route = responseData.route || []
-      const firstClinic = responseData.first_clinic || route[0]
-      const queueNumber = responseData.queue_number || 1
+      // Try different paths to find the route
+      let route = loginResponse.route || []
+      let firstClinic = loginResponse.first_clinic
+      let queueNumber = loginResponse.queue_number || 1
       
-      console.log('📍 Route data:', { route, firstClinic, queueNumber })
+      // If route is in data object
+      if (loginResponse.data) {
+        route = loginResponse.data.route || route
+        firstClinic = loginResponse.data.first_clinic || firstClinic  
+        queueNumber = loginResponse.data.queue_number || queueNumber
+      }
+      
+      console.log('📍 Route data extracted:', { route, firstClinic, queueNumber, hasRoute: route && route.length > 0 })
       
       if (!route || route.length === 0 || !firstClinic) {
         throw new Error(`No clinics found for this exam type. Response: ${JSON.stringify(responseData)}`)
