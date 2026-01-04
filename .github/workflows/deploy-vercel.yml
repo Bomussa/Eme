@@ -29,13 +29,8 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 9
-
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile=false
+        run: npm ci
 
       - name: Check if Vercel secrets are present
         id: check_secrets
@@ -49,7 +44,7 @@ jobs:
           fi
 
       - name: Build Project (Validation)
-        run: pnpm run build
+        run: npm run build
 
       - name: Deploy to Vercel (Production)
         id: vercel
