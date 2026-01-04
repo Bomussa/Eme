@@ -29,8 +29,13 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
       - name: Install dependencies
-        run: npm ci --ignore-scripts
+        run: pnpm install --frozen-lockfile=false
 
       - name: Check if Vercel secrets are present
         id: check_secrets
@@ -42,6 +47,9 @@ jobs:
             echo "secrets_present=false" >> $GITHUB_OUTPUT
             echo "⚠️ Vercel secrets are missing - will skip deploy"
           fi
+
+      - name: Build Project (Validation)
+        run: pnpm run build
 
       - name: Deploy to Vercel (Production)
         id: vercel
@@ -59,7 +67,7 @@ jobs:
         run: |
           # Priority: workflow_dispatch input > vercel preview URL > GH_PATH > DEPLOY_URL
           url="${{ github.event.inputs.url }}"
-          if [ -z "$url" ]; then url="${{ steps.vercel.outputs.preview-url }}"; fi
+          if [ -z "$url" ]; then url="${{ steps.vercel.outputs.url }}"; fi
           if [ -z "$url" ]; then url="${{ secrets.GH_PATH }}"; fi
           if [ -z "$url" ]; then url="${{ secrets.DEPLOY_URL }}"; fi
           
@@ -101,4 +109,3 @@ jobs:
               body, 
               labels: ['deployment-success'] 
             });
-
