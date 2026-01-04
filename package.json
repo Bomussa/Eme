@@ -4,7 +4,6 @@
   "type": "module",
   "description": "Military Medical Committee System - Complete Application",
   "main": "server.js",
-  "packageManager": "pnpm@10.19.0",
   "engines": {
     "node": ">=18.17 <21"
   },
